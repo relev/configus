@@ -22,7 +22,7 @@ describe Configus::Config do
   end
 
   it 'should be raise' do
-    lambda {@config.dont_exists}.should raise_error(RuntimeError)
+    lambda {@config.doesnt_exist}.should raise_error(RuntimeError)
   end
 
   it 'should be available as hash' do
@@ -30,11 +30,11 @@ describe Configus::Config do
     @config[:sections].second == @options[:sections][:second]
   end
 
-  it 'should be transform to hash' do
+  it 'should be transformable to hash' do
     @config.to_hash.should == @options
   end
 
-  it 'should passing each key-value pair' do
+  it 'should pass each key-value pair' do
     @config.pairs.each_pair { |key, value| } == @options[:pairs].each_pair { |key, value| }
   end
 end
