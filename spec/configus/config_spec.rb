@@ -11,7 +11,8 @@ describe Configus::Config do
           :key => :value
         }
       },
-      :pairs => { :pkay => "vkay" }
+      :pairs => { :pkay => "vkay" },
+      :as_is => { :pkay => "vkay", :configus_leave_as_is => true }
     }
     @config = Configus::Config.new(@options)
   end
@@ -37,5 +38,11 @@ describe Configus::Config do
   it 'should pass each key-value pair' do
     @config.pairs.each_pair { |key, value| } == @options[:pairs].each_pair { |key, value| }
   end
+
+  it 'should support configus_leave_as_is' do
+    @config.as_is.class == 'Hash'
+    @config.as_is.count == 1
+  end
+
 end
 

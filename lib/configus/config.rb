@@ -5,13 +5,19 @@ module Configus
     def initialize(config, section = nil)
       @config = {}
       config.each_pair do |key, value|
-        @config[key] = value.is_a?(Hash) ? Config.new(value) : value
+        @config[key] = (value.is_a?(Hash) && !value[:configus_leave_as_is]) \
+                          ? Config.new(value)                               \
+                          : value
       end
 
       (class << self; self; end).class_eval do
         config.each_pair do |key, value|
-          if value.is_a? Hash
-            value = Config.new(value)
+          if value.is_a?(Hash)
+            if value[:configus_leave_as_is]
+              value.delete(:configus_leave_as_is)
+            else
+              value = Config.new(value)
+            end
           end
 
           define_method key.to_sym do
